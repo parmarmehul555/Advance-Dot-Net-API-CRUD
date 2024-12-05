@@ -13,6 +13,7 @@ namespace CRUD_API.Data
             _configuration = configuration;
         }
 
+        #region Select All Country
         public List<CountryModel> SelectAllCountries()
         {
             List<CountryModel> countries = new List<CountryModel>();
@@ -34,5 +35,90 @@ namespace CRUD_API.Data
             }
             return countries;
         }
+        #endregion
+
+        #region Delete Country
+        public bool DeleteCountry(int CountryID)
+        {
+            try
+            {
+                String str = _configuration.GetConnectionString("MyConnectionString");
+                using (SqlConnection conn = new SqlConnection(str))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand("PR_LOC_Country_Delete", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("CountryID", CountryID);
+                    if (Convert.ToBoolean(cmd.ExecuteNonQuery()))
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        #endregion
+
+        #region Insert Country
+        public bool Insert(CountryModel modelCountry)
+        {
+            try
+            {
+                string str = _configuration.GetConnectionString("MyConnectionString");
+                using (SqlConnection conn = new SqlConnection(str))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand("PR_LOC_COUNTRY_INSERT", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("CountryName", modelCountry.CountryName);
+                    cmd.Parameters.AddWithValue("CountryCode", modelCountry.CountryCode);
+                    if (Convert.ToBoolean(cmd.ExecuteNonQuery()))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        #endregion
+
+        #region Update Country
+        public bool Update(CountryModel modelCountry)
+        {
+            try
+            {
+                string str = _configuration.GetConnectionString("MyConnectionString");
+                using(SqlConnection conn = new SqlConnection(str))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand("PR_LOC_COUNTRY_UPDATE", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("CountryID", modelCountry.CountryID);
+                    cmd.Parameters.AddWithValue("CountryName", modelCountry.CountryName);
+                    cmd.Parameters.AddWithValue("CountryCode", modelCountry.CountryCode);
+                    if (Convert.ToBoolean(cmd.ExecuteNonQuery()))
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        #endregion
     }
 }

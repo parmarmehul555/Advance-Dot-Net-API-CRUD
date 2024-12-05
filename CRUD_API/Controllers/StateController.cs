@@ -21,5 +21,16 @@ namespace CRUD_API.Controllers
             List<StateModel> states = _StateRepo.SelectAll();
             return Ok(states);
         }
+
+        [HttpDelete("{StateID}")]
+        public IActionResult Delete(int StateID)
+        {
+            bool IsDeleted = _StateRepo.Delete(StateID);
+            if (IsDeleted)
+            {
+                return Ok();
+            }
+            return NotFound();
+        }
     }
 }

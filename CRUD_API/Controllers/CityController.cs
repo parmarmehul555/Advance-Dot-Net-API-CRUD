@@ -27,7 +27,7 @@ namespace CRUD_API.Controllers
 
         #region Delete City
 
-        [HttpDelete("CityID")]
+        [HttpDelete("{CityID}")]
         public IActionResult DeleteCity(int CityID)
         {
             try
