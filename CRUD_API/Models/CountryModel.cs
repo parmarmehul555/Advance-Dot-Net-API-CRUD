@@ -11,4 +11,10 @@ namespace CRUD_API.Models
         [DefaultValue("")]
         public string CountryCode { get; set; }
     }
+
+    public class CountryDropDown
+    {
+        public int? CountryID { get; set; }
+        public string CountryName { get; set; }
+    }
 }

@@ -85,5 +85,12 @@ namespace CRUD_API.Controllers
                 return BadRequest(response);
             }
         }
+
+        [HttpGet("CountryDropdown")]
+        public IActionResult CountryDropdown()
+        {
+            List<CountryDropDown> countryDropDown = _repo.Country_DropDown();
+            return Ok(countryDropDown);
+        }
     }
 }

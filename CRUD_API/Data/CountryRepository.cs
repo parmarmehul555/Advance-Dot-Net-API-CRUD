@@ -120,5 +120,28 @@ namespace CRUD_API.Data
             }
         }
         #endregion
+
+        #region Country Dropdown
+        public List<CountryDropDown> Country_DropDown()
+        {
+            List<CountryDropDown> countries = new List<CountryDropDown>();
+            string connstr = this._configuration.GetConnectionString("MyConnectionString");
+            using (SqlConnection conn = new SqlConnection(connstr))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("PR_COUNTRY_DROPDOWN", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    CountryDropDown Coutry = new CountryDropDown();
+                    Coutry.CountryID = Convert.ToInt32(reader["CountryID"]);
+                    Coutry.CountryName = Convert.ToString(reader["CountryName"]);
+                    countries.Add(Coutry);
+                }
+            }
+            return countries;
+        }
+        #endregion
     }
 }

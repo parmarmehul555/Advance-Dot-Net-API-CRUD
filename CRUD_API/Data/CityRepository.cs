@@ -57,5 +57,67 @@ namespace CRUD_API.Data
 
         }
         #endregion
+
+        #region Insert Country
+        public bool Insert(CityModel modelCity)
+        {
+            try
+            {
+                string str = _configuration.GetConnectionString("MyConnectionString");
+                using (SqlConnection conn = new SqlConnection(str))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand("PR_LOC_City_Insert", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("StateID", modelCity.StateID);
+                    cmd.Parameters.AddWithValue("CountryID", modelCity.CountryID);
+                    cmd.Parameters.AddWithValue("CityName", modelCity.CityName);
+                    cmd.Parameters.AddWithValue("CityCode", modelCity.CityCode);
+                    if (Convert.ToBoolean(cmd.ExecuteNonQuery()))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        #endregion
+
+        #region Update State
+        public bool Update(CityModel modelCity)
+        {
+            try
+            {
+                string str = _configuration.GetConnectionString("MyConnectionString");
+                using (SqlConnection conn = new SqlConnection(str))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand("PR_LOC_City_Update", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("CityID", modelCity.CityID);
+                    cmd.Parameters.AddWithValue("StateID", modelCity.StateID);
+                    cmd.Parameters.AddWithValue("CountryID", modelCity.CountryID);
+                    cmd.Parameters.AddWithValue("CityName", modelCity.CityName);
+                    cmd.Parameters.AddWithValue("CityCode", modelCity.CityCode);
+                    if (Convert.ToBoolean(cmd.ExecuteNonQuery()))
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        #endregion
     }
 }
